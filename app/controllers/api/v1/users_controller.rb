@@ -33,7 +33,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  # curl -X PUT -H "Content-Type: application/json" -d '{ "user": { "phone_number": "617-111-2222" }}' http://localhost:3000/api/v1/users/1
+  # curl -X PUT -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTU0ODc2OTMsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.En5teUqtn2wIOkYPuvnxK1QgkrwRG7Tkj1NGRSvDX-k" -d '{ "user": { "phone_number": "617-111-2222" }}' http://localhost:3000/api/v1/users/1
   def update
     @user = User.find(params[:id])
     @user.assign_attributes(user_params)
@@ -46,6 +46,7 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  # curl -X DELETE -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTU0ODc2OTMsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.En5teUqtn2wIOkYPuvnxK1QgkrwRG7Tkj1NGRSvDX-k" http://localhost:3000/api/v1/users/1
   def destroy
     @user = User.find(params[:id])
     @user.destroy
