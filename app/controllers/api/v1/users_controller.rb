@@ -64,6 +64,11 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def facebook_login
+    user_info, access_token = Facebook.authenticate(params[:facebook_code])
+    # find or create user from user_info, access_token is a 60-day token
+  end
+
   private
   def user_params
     params.require(:user).permit(:first_name, :last_name, :username, :email, :phone_number, :password, :password_confirmation)

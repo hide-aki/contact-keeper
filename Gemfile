@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'listen'
 gem 'bcrypt'
 gem 'jwt'
+gem 'httparty'
 
 group :development, :test do
   gem 'capybara'
