@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_request, except: [:index, :login]
+  before_action :authenticate_request, except: [:index, :login, :facebook_token]
 
   def index
     @users = User.all
@@ -64,9 +64,9 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def facebook_login
-    user_info, access_token = Facebook.authenticate(params[:facebook_code])
-    # find or create user from user_info, access_token is a 60-day token
+  def facebook_token
+    user_info, access_token = FacebookToken.authenticate(params['facebookInfo']['accessToken'])
+    render json: { status: 'Successfully authenticated with Facebook.' }, status: :ok
   end
 
   private
