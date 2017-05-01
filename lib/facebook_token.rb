@@ -37,7 +37,6 @@ class FacebookToken
 
   def self.get_access_token(temp_token)
     response = FacebookToken.get('/oauth/access_token', query(temp_token))
-    binding.pry
     unless response.success?
       Rails.logger.error 'Facebook.get_access_token Failed'
     end
@@ -45,7 +44,12 @@ class FacebookToken
   end
 
   def self.get_user_profile(access_token)
-    options = { query: { access_token: access_token } }
+    options = {
+      query: {
+        access_token: access_token,
+        fields: 'name,picture,email'
+      }
+    }
     response = FacebookToken.get('/me', options)
 
     unless response.success?

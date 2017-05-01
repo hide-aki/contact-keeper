@@ -66,7 +66,10 @@ class Api::V1::UsersController < ApplicationController
 
   def facebook_token
     user_info, access_token = FacebookToken.authenticate(params['facebookInfo']['accessToken'])
-    render json: { status: 'Successfully authenticated with Facebook.' }, status: :ok
+    render json: {
+      status: 'Successfully authenticated with Facebook.',
+      photo: user_info['picture']['data']['url']
+    }, status: :ok
   end
 
   private
