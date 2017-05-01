@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :users do
         collection do
           post 'login'
+          post 'facebook_token'
         end
       end
     end

@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_request, except: [:index, :login]
+  before_action :authenticate_request, except: [:index, :login, :facebook_token]
 
   def index
     @users = User.all
@@ -62,6 +62,14 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { error: 'Invalid username / password' }, status: :unauthorized
     end
+  end
+
+  def facebook_token
+    user_info, access_token = FacebookToken.authenticate(params['facebookInfo']['accessToken'])
+    render json: {
+      status: 'Successfully authenticated with Facebook.',
+      photo: user_info['picture']['data']['url']
+    }, status: :ok
   end
 
   private

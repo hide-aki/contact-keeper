@@ -9,6 +9,8 @@ gem 'jquery-rails'
 gem 'listen'
 gem 'bcrypt'
 gem 'jwt'
+gem 'httparty'
+gem 'rack-cors', require: 'rack/cors'
 
 group :development, :test do
   gem 'capybara'
@@ -17,6 +19,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'shoulda'
   gem 'valid_attribute'
+  gem 'dotenv-rails'
 end
 
 group :test do
