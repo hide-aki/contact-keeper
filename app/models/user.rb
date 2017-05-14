@@ -6,4 +6,8 @@ class User < ApplicationRecord
   validates :password, presence: true, on: :create
   validates :password_confirmation, presence: true, on: :create
   validates :username, presence: true, uniqueness: true
+  validates :phone_number, presence: true
+  validates :email, presence: true,
+    format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i },
+    uniqueness: { case_sensitive: false }
 end
