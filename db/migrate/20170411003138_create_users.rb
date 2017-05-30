@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :phone_number
       t.string :email
       t.string :token
+      t.boolean :valid_jwt, default: false
 
       t.timestamps null: false
     end
