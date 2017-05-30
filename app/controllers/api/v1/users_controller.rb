@@ -20,6 +20,7 @@ class Api::V1::UsersController < ApplicationController
 
   # curl -X POST -H "Content-Type: application/json" -d '{ "user": { "username": "jfriedman", "first_name": "Jeff", "last_name": "Friedman", "email": "test@test.com", "phone_number": "617-123-4567", "password": "password", "password_confirmation": "password" }}' http://localhost:3000/api/v1/users
   def create
+    params[:email] = params[:email].to_s.downcase
     @user = User.new(user_params)
     if @user.save
       render json: {
@@ -58,12 +59,19 @@ class Api::V1::UsersController < ApplicationController
   # curl -X POST -H "Content-Type: application/json" -d '{ "email": "test@test.com", "password": "password" }' http://localhost:3000/api/v1/users/login
   def login
     @user = User.find_by(email: params[:email].to_s.downcase)
+
+    # authenticate method provided by has_secure_password
     if @user&.authenticate(params[:password])
         auth_token = JsonWebToken.encode({ user_id: @user.id })
+        current_user.assign_attributes(valid_jwt: true)
         render json: { auth_token: auth_token }, status: :ok
     else
       render json: { error: 'Invalid username / password' }, status: :unauthorized
     end
+  end
+  
+  def logout
+    current_user.assign_attributes(valid_jwt: false)
   end
 
   def facebook_token
