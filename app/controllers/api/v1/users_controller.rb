@@ -71,7 +71,9 @@ class Api::V1::UsersController < ApplicationController
     end
   end
   
+  # curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTg3ODIyMDIsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.z7HSguRBmX59Lyvr57gZHA8iy0WN_4EIP2XWYXmsKRY" http://localhost:8080/api/v1/users/logout
   def logout
+    binding.pry
     current_user.assign_attributes(valid_jwt: false)
   end
 
