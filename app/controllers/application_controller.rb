@@ -23,6 +23,6 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= User.find_by(id: payload.first['user_id'])
+    @current_user ||= User.find_by(id: payload&.first['user_id'])
   end
 end
