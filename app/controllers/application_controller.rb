@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   protected
 
   def authenticate_request
-    if !payload || !JsonWebToken.valid_payload(payload.first) || !current_user
+    if !payload || !JsonWebToken.valid_payload(payload.first) || !current_user || !current_user.valid_jwt
       binding.pry
       return invalid_authentication
     end
@@ -23,6 +23,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= User.find_by(id: payload&.first['user_id'])
+    user_id = payload ? payload.first['user_id'] : nil
+    @current_user ||= User.find_by(id: user_id)
   end
 end
