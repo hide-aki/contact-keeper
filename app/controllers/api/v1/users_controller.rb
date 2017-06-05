@@ -64,7 +64,7 @@ class Api::V1::UsersController < ApplicationController
     if @user&.authenticate(params[:password])
         @current_user = @user
         auth_token = JsonWebToken.encode({ user_id: @user.id })
-        current_user.assign_attributes(valid_jwt: true)
+        @current_user.update(valid_jwt: true)
         render json: { auth_token: auth_token }, status: :ok
     else
       render json: { error: 'Invalid username / password' }, status: :unauthorized

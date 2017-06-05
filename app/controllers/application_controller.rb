@@ -11,6 +11,10 @@ class ApplicationController < ActionController::API
   def invalid_authentication
     render json: { error: 'Invalid Request' }, status: :unauthorized
   end
+  
+  def authenticated_user
+    payload.id
+  end
 
   private
 

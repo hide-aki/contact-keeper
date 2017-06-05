@@ -8,6 +8,10 @@ Rails.application.routes.draw do
           post 'facebook_token'
         end
       end
+      
+      resources :contacts do
+        
+      end
     end
   end
 end
