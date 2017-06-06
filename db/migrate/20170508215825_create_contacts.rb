@@ -11,5 +11,7 @@ class CreateContacts < ActiveRecord::Migration[5.0]
 
       t.timestamps null: false
     end
+    
+    add_index :contacts, [:user_id, :email], name: "idx_contacts_on_user_and_email", unique: true, using: :btree
   end
 end

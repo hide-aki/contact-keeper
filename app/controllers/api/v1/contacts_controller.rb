@@ -1,7 +1,7 @@
 class Api::V1::ContactsController < ApplicationController
   before_action :authenticate_request
   
-  # curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTkyOTczODQsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.JTn6tbZpWwqMoebsykpEcClu45MIB303L_gs7DSavRU" http://localhost:3000/api/v1/contacts
+  # curl -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTkzMDA5OTYsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.khgYMPM8fXjGuwftvt0U9a1ZC1LLS0QuLk79f7Hp5Ow" http://localhost:3000/api/v1/contacts
   def index
     @contacts = User.find(current_user.id).contacts
     render json: { contacts: @contacts }, status: :ok
@@ -12,9 +12,9 @@ class Api::V1::ContactsController < ApplicationController
     render json: { contact: @contact }, status: :ok
   end
   
-  # curl -X POST -H "Content-Type: application/json" -d '{ "user": { "username": "jfriedman", "first_name": "Jeff", "last_name": "Friedman", "email": "test@test.com", "phone_number": "617-123-4567", "password": "password", "password_confirmation": "password" }}' http://localhost:3000/api/v1/users
+  # curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTkzMDA5OTYsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.khgYMPM8fXjGuwftvt0U9a1ZC1LLS0QuLk79f7Hp5Ow" -d '{ "contact": { "first_name": "Jeff", "last_name": "Friedman", "email": "test@test.com", "phone_number": "617-123-4567", "notes": "Bueller?" }}' http://localhost:3000/api/v1/contacts
   def create
-    @contact = Contact.new(contact_params)
+    @contact = Contact.new(contact_params.merge(user_id: current_user.id))
     if @contact.save
       render json: { msg: 'Contact created!', contact: @contact }, status: :ok
     else
