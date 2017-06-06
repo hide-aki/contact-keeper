@@ -23,12 +23,15 @@ class Api::V1::UsersController < ApplicationController
     params[:email] = params[:email].to_s.downcase
     @user = User.new(user_params)
     if @user.save
+      auth_token = JsonWebToken.encode({ user_id: @user.id })
+      @user.update(valid_jwt: true)
       render json: {
         username: @user.username,
         first_name: @user.first_name,
         last_name: @user.last_name,
         email: @user.email,
-        phone_number: @user.phone_number
+        phone_number: @user.phone_number,
+        auth_token: auth_token
       }, status: :ok
     else
       render json: { error: @user.errors.full_messages.join(', ') }, status: :bad_request
@@ -64,7 +67,7 @@ class Api::V1::UsersController < ApplicationController
     if @user&.authenticate(params[:password])
         @current_user = @user
         auth_token = JsonWebToken.encode({ user_id: @user.id })
-        current_user.assign_attributes(valid_jwt: true)
+        @current_user.update(valid_jwt: true)
         render json: { auth_token: auth_token }, status: :ok
     else
       render json: { error: 'Invalid username / password' }, status: :unauthorized
@@ -73,8 +76,7 @@ class Api::V1::UsersController < ApplicationController
   
   # curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTg3ODIyMDIsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.z7HSguRBmX59Lyvr57gZHA8iy0WN_4EIP2XWYXmsKRY" http://localhost:8080/api/v1/users/logout
   def logout
-    binding.pry
-    current_user.assign_attributes(valid_jwt: false)
+    current_user.update(valid_jwt: false)
   end
 
   def facebook_token
