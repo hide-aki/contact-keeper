@@ -3,7 +3,6 @@ class ApplicationController < ActionController::API
 
   def authenticate_request
     if !payload || !JsonWebToken.valid_payload(payload.first) || !current_user || !current_user.valid_jwt
-      binding.pry
       return invalid_authentication
     end
   end
