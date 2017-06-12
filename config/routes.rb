@@ -5,6 +5,7 @@ Rails.application.routes.draw do
         collection do
           post 'login'
           post 'logout'
+          get 'confirm_login'
           post 'facebook_token'
         end
       end

@@ -74,6 +74,22 @@ class Api::V1::UsersController < ApplicationController
     end
   end
   
+  def confirm_login
+    if (current_user)
+      render json: {
+        username: @user.username,
+        first_name: @user.first_name,
+        last_name: @user.last_name,
+        email: @user.email,
+        phone_number: @user.phone_number
+      }, status: :ok
+    else
+      render json: {
+        msg: 'Not authenticated.'
+      }, status: :forbidden
+    end
+  end
+  
   # curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0OTg3ODIyMDIsImlzcyI6IkNvbnRhY3QgS2VlcGVyIiwiYXVkIjoiY2xpZW50In0.z7HSguRBmX59Lyvr57gZHA8iy0WN_4EIP2XWYXmsKRY" http://localhost:8080/api/v1/users/logout
   def logout
     current_user.update(valid_jwt: false)
