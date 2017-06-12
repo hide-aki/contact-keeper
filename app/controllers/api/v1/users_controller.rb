@@ -77,11 +77,12 @@ class Api::V1::UsersController < ApplicationController
   def confirm_login
     if (current_user)
       render json: {
-        username: @user.username,
-        first_name: @user.first_name,
-        last_name: @user.last_name,
-        email: @user.email,
-        phone_number: @user.phone_number
+        id: current_user.id,
+        username: current_user.username,
+        first_name: current_user.first_name,
+        last_name: current_user.last_name,
+        email: current_user.email,
+        phone_number: current_user.phone_number
       }, status: :ok
     else
       render json: {
